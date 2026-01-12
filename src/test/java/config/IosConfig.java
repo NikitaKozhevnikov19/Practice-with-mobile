@@ -7,23 +7,23 @@ import org.aeonbits.owner.Config;
 public interface IosConfig extends Config {
 
     @Key("ios.device")
-    String deviceName();
+    String iosDevice();
 
     @Key("ios.version")
-    String osVersion();
+    String iosVersion();
 
     @Key("ios.app")
-    String appUrl();
+    String iosApp();
 
     @Key("bs.user")
-    String user();
+    String bsUser();
 
     @Key("bs.key")
-    String key();
+    String bsKey();
 
     @Key("remote.url")
     String remoteUrl();
 
     @Key("appium.automationName")
-    String automationName();
+    String appiumAutomationName();
 }
