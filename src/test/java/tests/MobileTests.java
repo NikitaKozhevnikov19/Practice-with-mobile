@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 @Tag("mobile")
-public class WikipediaTests extends TestBase {
+public class MobileTests extends TestBase {
 
     // -------------------- ANDROID --------------------
     @Test
@@ -17,20 +17,23 @@ public class WikipediaTests extends TestBase {
 
         String query = "Appium";
         pages.android.SearchScreen screen = new pages.android.SearchScreen();
+
         screen.executeSearch(query);
         screen.checkResultsExist();
     }
 
     @Test
     @Owner("Kozherka")
-    @DisplayName("Android: Открытие статьи в Wikipedia")
+    @DisplayName("Android: Открытие статьи в Wikipedia и проверка заголовка")
     void androidOpenArticleTest() {
         if (!deviceHost.equals("android")) return;
 
         String query = "Java";
         pages.android.SearchScreen screen = new pages.android.SearchScreen();
+
         screen.executeSearch(query);
         screen.clickFirstResult();
+        screen.checkArticleOpened();
     }
 
     // -------------------- IOS --------------------
