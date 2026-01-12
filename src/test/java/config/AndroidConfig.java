@@ -7,19 +7,19 @@ import org.aeonbits.owner.Config;
 public interface AndroidConfig extends Config {
 
     @Key("android.device")
-    String deviceName();
+    String androidDevice();
 
     @Key("android.version")
-    String osVersion();
+    String androidVersion();
 
     @Key("android.app")
-    String appUrl();
+    String androidApp();
 
     @Key("bs.user")
-    String user();
+    String bsUser();
 
     @Key("bs.key")
-    String key();
+    String bsKey();
 
     @Key("remote.url")
     String remoteUrl();
