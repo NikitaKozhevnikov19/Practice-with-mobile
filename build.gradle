@@ -55,25 +55,14 @@ allure {
 
 
 
-
-task mobileTestRunner(type: Test) {
-    useJUnitPlatform {
-        includeTags("mobile")
-    }
-    systemProperties(System.getProperties())
-}
-
-
-
-
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
-}
-
 tasks.withType(Test) {
     systemProperty "file.encoding", "UTF-8"
 
-    useJUnitPlatform()
+    useJUnitPlatform {
+        includeTags("mobile")
+    }
+
+
     systemProperties(System.getProperties())
 
     testLogging {
