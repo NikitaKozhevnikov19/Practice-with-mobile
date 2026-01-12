@@ -31,6 +31,8 @@ public class SearchScreen {
 
     private final SelenideElement firstResult = searchResults.first();
 
+    private final SelenideElement articleTitle =
+            $(AppiumBy.className("android.widget.TextView"));
 
     @Step("Android: Найти статью '{query}'")
     public void executeSearch(String query) {
@@ -46,13 +48,18 @@ public class SearchScreen {
         searchInput.shouldBe(visible, Duration.ofSeconds(15)).sendKeys(query);
     }
 
-    @Step("Android: Проверить результаты")
+    @Step("Android: Проверить наличие результатов поиска")
     public void checkResultsExist() {
         searchResults.shouldHave(sizeGreaterThan(0), Duration.ofSeconds(20));
     }
 
-    @Step("Android: Открыть первый результат")
+    @Step("Android: Открыть первый результат в списке")
     public void clickFirstResult() {
-        firstResult.click();
+        firstResult.shouldBe(visible).click();
+    }
+
+    @Step("Android: Проверить, что статья успешно открылась")
+    public void checkArticleOpened() {
+        articleTitle.shouldBe(visible, Duration.ofSeconds(20));
     }
 }
