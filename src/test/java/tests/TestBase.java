@@ -33,6 +33,8 @@ public class TestBase {
         }
         Configuration.browserSize = null;
         Configuration.timeout = 30000;
+        Configuration.remoteConnectionTimeout = 10000;
+        Configuration.remoteReadTimeout = 60000;
     }
 
     @BeforeEach
@@ -40,21 +42,34 @@ public class TestBase {
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide()
                 .screenshots(true)
                 .savePageSource(true));
-        open();
     }
 
     @AfterEach
     void tearDown() {
-        String sessionId = ((RemoteWebDriver) WebDriverRunner.getWebDriver()).getSessionId().toString();
+        String sessionId = "";
+        if (WebDriverRunner.hasWebDriverStarted()) {
+            sessionId = ((RemoteWebDriver) WebDriverRunner.getWebDriver()).getSessionId().toString();
+        }
 
-        Attach.screenshotAs("Last screenshot");
-        Attach.pageSource();
+
+        try {
+            Attach.screenshotAs("Last screenshot");
+        } catch (Exception ignored) {
+        }
+        try {
+            Attach.pageSource();
+        } catch (Exception ignored) {
+        }
 
         Selenide.closeWebDriver();
 
-        // Проверка платформы для добавления видео
-        if (deviceHost.equals("ios") || deviceHost.equals("android")) {
-            Attach.addVideo(sessionId);
+
+        if (!sessionId.isEmpty() && (deviceHost.equals("ios") || deviceHost.equals("android"))) {
+            try {
+                Attach.addVideo(sessionId);
+            } catch (Exception e) {
+                System.err.println("Не удалось прикрепить видео: " + e.getMessage());
+            }
         }
     }
 }
