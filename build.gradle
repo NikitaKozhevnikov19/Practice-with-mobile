@@ -58,7 +58,12 @@ allure {
 tasks.withType(Test) {
     systemProperty "file.encoding", "UTF-8"
 
-    useJUnitPlatform()
+    useJUnitPlatform {
+        String tags = System.getProperty("junit.platform.include.tags")
+        if (tags != null && !tags.isEmpty()) {
+            includeTags tags
+        }
+    }
 
     systemProperties(System.getProperties())
 
@@ -69,4 +74,3 @@ tasks.withType(Test) {
         }
     }
 }
-
