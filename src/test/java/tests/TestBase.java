@@ -1,11 +1,14 @@
 package tests;
 
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.WebDriverRunner;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import config.AndroidConfig;
 import config.IosConfig;
 import drivers.AndroidDriverProvider;
 import drivers.IosDriverProvider;
+import helpers.Attach;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.aeonbits.owner.ConfigFactory;
 import org.junit.jupiter.api.AfterEach;
@@ -16,10 +19,10 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import static com.codeborne.selenide.Selenide.open;
 
 public class TestBase {
-    public static String deviceHost = System.getProperty("deviceHost", "android");
+    public static final String deviceHost = System.getProperty("deviceHost", "android");
 
-    public static AndroidConfig androidConfig = ConfigFactory.create(AndroidConfig.class, System.getProperties());
-    public static IosConfig iosConfig = ConfigFactory.create(IosConfig.class, System.getProperties());
+    public static final AndroidConfig androidConfig = ConfigFactory.create(AndroidConfig.class, System.getProperties());
+    public static final IosConfig iosConfig = ConfigFactory.create(IosConfig.class, System.getProperties());
 
     @BeforeAll
     static void setup() {
@@ -42,16 +45,16 @@ public class TestBase {
 
     @AfterEach
     void tearDown() {
+        String sessionId = ((RemoteWebDriver) WebDriverRunner.getWebDriver()).getSessionId().toString();
 
-        String sessionId = ((RemoteWebDriver) com.codeborne.selenide.WebDriverRunner.getWebDriver()).getSessionId().toString();
+        Attach.screenshotAs("Last screenshot");
+        Attach.pageSource();
 
-        helpers.Attach.screenshotAs("Last screenshot");
-        helpers.Attach.pageSource();
+        Selenide.closeWebDriver();
 
-        com.codeborne.selenide.Selenide.closeWebDriver();
-
+        // Проверка платформы для добавления видео
         if (deviceHost.equals("ios") || deviceHost.equals("android")) {
-            helpers.Attach.addVideo(sessionId);
+            Attach.addVideo(sessionId);
         }
     }
 }
