@@ -4,12 +4,14 @@ import io.qameta.allure.Owner;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 
 @Tag("mobile")
 public class MobileTests extends TestBase {
 
     // -------------------- ANDROID --------------------
     @Test
+    @Tag("android")
     @Owner("Kozherka")
     @DisplayName("Android: Проверка поиска в Wikipedia")
     void androidSearchTest() {
@@ -23,6 +25,7 @@ public class MobileTests extends TestBase {
     }
 
     @Test
+    @Tag("android")
     @Owner("Kozherka")
     @DisplayName("Android: Открытие статьи в Wikipedia и проверка заголовка")
     void androidOpenArticleTest() {
@@ -38,6 +41,7 @@ public class MobileTests extends TestBase {
 
     // -------------------- IOS --------------------
     @Test
+    @Tag("ios")
     @Owner("Kozherka")
     @DisplayName("iOS: Проверка перехода в UI Elements и наличия кнопок")
     void checkUiElementsTest() {
@@ -54,6 +58,7 @@ public class MobileTests extends TestBase {
 
     @Test
     @Owner("Kozherka")
+    @Tag("ios")
     @DisplayName("iOS: Проверка возврата на главный экран")
     void testBackNavigation() {
         if (!deviceHost.equals("ios")) return;
