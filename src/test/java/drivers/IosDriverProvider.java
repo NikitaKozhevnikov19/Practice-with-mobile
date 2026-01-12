@@ -22,14 +22,14 @@ public class IosDriverProvider implements WebDriverProvider {
     public WebDriver createDriver(@Nonnull Capabilities capabilities) {
 
         XCUITestOptions options = new XCUITestOptions();
-        options.setDeviceName(config.deviceName())
-                .setPlatformVersion(config.osVersion())
-                .setApp(config.appUrl())
-                .setAutomationName(config.automationName()); // берем из пропертей
+        options.setDeviceName(config.iosDevice())
+                .setPlatformVersion(config.iosVersion())
+                .setApp(config.iosApp())
+                .setAutomationName(config.appiumAutomationName());
 
         options.setCapability("bstack:options", Map.of(
-                "userName", config.user(),
-                "accessKey", config.key(),
+                "userName", config.bsUser(),
+                "accessKey", config.bsKey(),
                 "projectName", "Sample iOS Project",
                 "buildName", "ios-build-2026"
         ));
