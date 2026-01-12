@@ -5,6 +5,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+import static com.codeborne.selenide.Selenide.open;
+
 @Tag("android")
 public class AndroidTests extends TestBase {
     pages.android.SearchScreen screen = new pages.android.SearchScreen();
@@ -13,6 +15,7 @@ public class AndroidTests extends TestBase {
     @Owner("Kozherka")
     @DisplayName("Android: Проверка поиска в Wikipedia")
     void androidSearchTest() {
+        open();
         screen.executeSearch("Appium");
         screen.checkResultsExist();
     }
@@ -21,6 +24,7 @@ public class AndroidTests extends TestBase {
     @Owner("Kozherka")
     @DisplayName("Android: Открытие статьи в Wikipedia")
     void androidOpenArticleTest() {
+        open();
         screen.executeSearch("Java");
         screen.clickFirstResult();
         screen.checkArticleOpened();
