@@ -20,13 +20,13 @@ public class AndroidDriverProvider implements WebDriverProvider {
     @Override
     public WebDriver createDriver(@Nonnull Capabilities capabilities) {
         UiAutomator2Options options = new UiAutomator2Options();
-        options.setDeviceName(config.deviceName())
-                .setPlatformVersion(config.osVersion())
-                .setApp(config.appUrl());
+        options.setDeviceName(config.androidDevice())
+                .setPlatformVersion(config.androidVersion())
+                .setApp(config.androidApp());
 
         options.setCapability("bstack:options", Map.of(
-                "userName", config.user(),
-                "accessKey", config.key(),
+                "userName", config.bsUser(),
+                "accessKey", config.bsKey(),
                 "projectName", "Wikipedia Android Project",
                 "buildName", "android-build-2026"
         ));
@@ -38,4 +38,3 @@ public class AndroidDriverProvider implements WebDriverProvider {
         }
     }
 }
-
