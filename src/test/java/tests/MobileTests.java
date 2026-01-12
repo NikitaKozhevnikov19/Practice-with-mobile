@@ -43,8 +43,9 @@ public class MobileTests extends TestBase {
     void checkUiElementsTest() {
         if (!deviceHost.equals("ios")) return;
 
-        pages.ios.SearchScreen screen = new pages.ios.SearchScreen();
+        com.codeborne.selenide.Selenide.open();
 
+        pages.ios.SearchScreen screen = new pages.ios.SearchScreen();
         screen.clickUIElements();
         screen.checkTextButtonVisible();
         screen.clickTextButton();
@@ -57,8 +58,9 @@ public class MobileTests extends TestBase {
     void testBackNavigation() {
         if (!deviceHost.equals("ios")) return;
 
-        pages.ios.SearchScreen screen = new pages.ios.SearchScreen();
+        com.codeborne.selenide.Selenide.open();
 
+        pages.ios.SearchScreen screen = new pages.ios.SearchScreen();
         screen.clickUIElements();
         screen.goBack();
         screen.clickUIElements();
