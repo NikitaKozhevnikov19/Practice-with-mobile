@@ -1,0 +1,86 @@
+plugins {
+    id 'java-library'
+    id 'io.qameta.allure' version '2.12.0'
+    id "io.freefair.lombok" version "6.0.0-m2"
+}
+
+group = 'kozherka.ru'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+
+def restAssuredVersion = "5.3.1"
+def allureVersion = "2.25.0"
+def selenideVersion = "6.16.1"
+def appiumVersion = "8.3.0" // Добавили версию Appium
+
+dependencies {
+    // REST API
+    testImplementation "io.rest-assured:rest-assured:$restAssuredVersion"
+
+    // UI (Selenide)
+    testImplementation "com.codeborne:selenide:$selenideVersion"
+
+    // MOBILE
+    testImplementation "io.appium:java-client:$appiumVersion"
+    testImplementation "org.aeonbits.owner:owner:1.0.12"
+
+    // ALLURE
+    testImplementation "io.qameta.allure:allure-rest-assured:$allureVersion"
+    testImplementation "io.qameta.allure:allure-selenide:$allureVersion"
+    testImplementation "io.qameta.allure:allure-junit5:$allureVersion"
+
+    // INFRASTRUCTURE
+    testImplementation "org.junit.jupiter:junit-jupiter:5.10.0"
+    testImplementation 'org.slf4j:slf4j-simple:2.0.7'
+    testImplementation 'org.freemarker:freemarker:2.3.31'
+}
+
+allure {
+    report {
+        version.set(allureVersion)
+    }
+    adapter {
+        aspectjWeaver.set(true)
+        frameworks {
+            junit5 {
+                adapterVersion.set(allureVersion)
+            }
+        }
+    }
+}
+
+
+
+
+task mobileTestRunner(type: Test) {
+    useJUnitPlatform {
+        includeTags("mobile")
+    }
+    systemProperties(System.getProperties())
+}
+
+
+
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+tasks.withType(Test) {
+    systemProperty "file.encoding", "UTF-8"
+
+    useJUnitPlatform()
+    systemProperties(System.getProperties())
+
+    testLogging {
+        lifecycle {
+            events "started", "skipped", "failed", "standard_error", "standard_out"
+            exceptionFormat "short"
+        }
+    }
+}
+
