@@ -23,8 +23,4 @@ public interface AndroidConfig extends Config {
 
     @Key("remote.url")
     String remoteUrl();
-
-    @Key("base.url")
-    @DefaultValue("https://en.m.wikipedia.org")
-    String baseUrl();
 }
