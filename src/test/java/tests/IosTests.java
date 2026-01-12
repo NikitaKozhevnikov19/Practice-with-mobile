@@ -15,7 +15,7 @@ public class IosTests extends TestBase {
     @Owner("Kozherka")
     @DisplayName("iOS: Проверка перехода в UI Elements")
     void checkUiElementsTest() {
-        open(); // Принудительно открываем сессию для iOS
+        open();
         screen.clickUIElements();
         screen.checkTextButtonVisible();
     }
