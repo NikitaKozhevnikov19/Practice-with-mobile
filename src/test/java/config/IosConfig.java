@@ -24,10 +24,6 @@ public interface IosConfig extends Config {
     @Key("remote.url")
     String remoteUrl();
 
-    @Key("base.url")
-    @DefaultValue("https://en.m.wikipedia.org")
-    String baseUrl();
-
     @Key("appium.automationName")
     String automationName();
 }
