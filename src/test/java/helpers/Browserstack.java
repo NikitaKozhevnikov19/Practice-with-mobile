@@ -6,7 +6,7 @@ import static io.restassured.RestAssured.given;
 
 public class Browserstack {
     public static String videoUrl(String sessionId) {
-        String url = String.format("https://api-cloud.browserstack.com", sessionId);
+        String url = String.format("api.browserstack.com", sessionId);
 
         return given()
                 .auth().basic(TestBase.config.bsUser(), TestBase.config.bsKey())
