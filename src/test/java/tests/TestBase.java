@@ -16,18 +16,25 @@ import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class TestBase {
-    public static final String deviceHost = System.getProperty("deviceHost", "android");
 
+    public static final String deviceHost = System.getProperty("deviceHost", "emulation");
 
     public static final MobileConfig config = ConfigFactory.create(MobileConfig.class, System.getProperties());
 
     @BeforeAll
     static void setup() {
-        if (deviceHost.equals("ios")) {
-            Configuration.browser = IosDriverProvider.class.getName();
-        } else {
-            Configuration.browser = AndroidDriverProvider.class.getName();
+        switch (deviceHost) {
+            case "ios":
+                Configuration.browser = IosDriverProvider.class.getName();
+                break;
+            case "real":
+            case "emulation":
+            case "browserstack":
+            default:
+                Configuration.browser = AndroidDriverProvider.class.getName();
+                break;
         }
+
         Configuration.browserSize = null;
         Configuration.timeout = 30000;
     }
