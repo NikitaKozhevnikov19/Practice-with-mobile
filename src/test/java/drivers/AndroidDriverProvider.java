@@ -19,16 +19,39 @@ public class AndroidDriverProvider implements WebDriverProvider {
     public WebDriver createDriver(@Nonnull Capabilities capabilities) {
         UiAutomator2Options options = new UiAutomator2Options();
 
-        options.setDeviceName(TestBase.config.deviceName())
-                .setPlatformVersion(TestBase.config.platformVersion())
-                .setApp(TestBase.config.appUrl());
+        switch (TestBase.deviceHost) {
+            case "emulation":
+                options.setDeviceName(TestBase.config.deviceName())
+                        .setPlatformVersion(TestBase.config.platformVersion())
+                        .setApp(TestBase.config.appUrl());
+                break;
 
-        options.setCapability("bstack:options", Map.of(
-                "userName", TestBase.config.bsUser(),
-                "accessKey", TestBase.config.bsKey(),
-                "projectName", "Wikipedia Android Project",
-                "buildName", "android-build-2026"
-        ));
+            case "real":
+                options.setDeviceName(TestBase.config.deviceName())
+                        .setPlatformVersion(TestBase.config.platformVersion())
+                        .setAppPackage("org.wikipedia")
+                        .setAppActivity("org.wikipedia.main.MainActivity")
+                        .setNoReset(true)
+                        .setCapability("udid", TestBase.config.deviceName());
+                break;
+
+            case "browserstack":
+                options.setDeviceName(TestBase.config.deviceName())
+                        .setPlatformVersion(TestBase.config.platformVersion())
+                        .setApp(TestBase.config.appUrl())
+                        .setCapability("bstack:options", Map.of(
+                                "userName", TestBase.config.bsUser(),
+                                "accessKey", TestBase.config.bsKey(),
+                                "projectName", "Wikipedia Android Project",
+                                "buildName", "android-build-2026"
+                        ));
+                break;
+
+            default:
+                throw new RuntimeException("Неизвестный deviceHost: " + TestBase.deviceHost);
+        }
+
+        options.setAutomationName(TestBase.config.automationName());
 
         try {
             return new AndroidDriver(new URL(TestBase.config.remoteUrl()), options);
