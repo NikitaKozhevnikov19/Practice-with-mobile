@@ -14,7 +14,6 @@ import static com.codeborne.selenide.Selenide.$$;
 
 public class SearchScreen {
 
-    // Универсальные ID (без указания пакета org.wikipedia)
     private final SelenideElement skipButton =
             $(AppiumBy.id("fragment_onboarding_skip_button"));
 
@@ -40,7 +39,7 @@ public class SearchScreen {
 
     @Step("Android: Найти статью '{query}'")
     public void executeSearch(String query) {
-        // Ждем появления кнопки Skip (onboarding) или контейнера поиска
+
         if (skipButton.is(visible)) {
             skipButton.click();
         }
@@ -55,7 +54,6 @@ public class SearchScreen {
 
         searchContainer.shouldBe(visible, Duration.ofSeconds(30)).click();
 
-        // Для стабильности вводим текст в активное поле
         searchInput.shouldBe(visible, Duration.ofSeconds(15)).sendKeys(query);
     }
 
