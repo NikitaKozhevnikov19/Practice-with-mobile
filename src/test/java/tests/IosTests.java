@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Selenide.open;
 
-@Tag("ios")
+@Tag("ios_bs")
 public class IosTests extends TestBase {
     pages.ios.SearchScreen screen = new pages.ios.SearchScreen();
 
