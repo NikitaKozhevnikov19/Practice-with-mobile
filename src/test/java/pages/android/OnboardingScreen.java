@@ -9,29 +9,29 @@ import static com.codeborne.selenide.Selenide.$;
 
 public class OnboardingScreen {
 
-    private final String PRIMARY_TEXT = "org.wikipedia:id/primaryTextView";
-    private final String FORWARD_BUTTON = "org.wikipedia:id/fragment_onboarding_forward_button";
-    private final String ACCEPT_BUTTON = "org.wikipedia:id/acceptButton";
-    private final String MAIN_SCREEN_WORDMARK = "org.wikipedia:id/main_toolbar_wordmark";
+    private final SelenideElement primaryTextView = $(AppiumBy.id("primaryTextView"));
+    private final SelenideElement forwardButton = $(AppiumBy.id("fragment_onboarding_forward_button"));
+    private final SelenideElement acceptButton = $(AppiumBy.id("acceptButton"));
+    private final SelenideElement doneButton = $(AppiumBy.id("fragment_onboarding_done_button"));
+    private final SelenideElement mainWordmark = $(AppiumBy.id("main_toolbar_wordmark"));
 
-    private final SelenideElement primaryTextView = $(AppiumBy.id(PRIMARY_TEXT));
-    private final SelenideElement forwardButton = $(AppiumBy.id(FORWARD_BUTTON));
-    private final SelenideElement acceptButton = $(AppiumBy.id(ACCEPT_BUTTON));
-    private final SelenideElement mainWordmark = $(AppiumBy.id(MAIN_SCREEN_WORDMARK));
-
-    @Step("Проверить заголовок и нажать 'Continue' на экране onboarding")
+    @Step("Проверить заголовок и нажать 'Continue'")
     public void swipeForward() {
         primaryTextView.shouldBe(visible);
         forwardButton.shouldBe(visible).click();
     }
 
-    @Step("Нажать 'Accept' на последнем экране onboarding")
+    @Step("Нажать на кнопку завершения")
     public void finishOnboarding() {
         primaryTextView.shouldBe(visible);
-        acceptButton.shouldBe(visible).click();
+        if (acceptButton.is(visible)) {
+            acceptButton.click();
+        } else {
+            doneButton.shouldBe(visible).click();
+        }
     }
 
-    @Step("Проверить, что основной экран Wikipedia открылся")
+    @Step("Проверить главный экран")
     public void checkMainScreen() {
         mainWordmark.shouldBe(visible);
     }
