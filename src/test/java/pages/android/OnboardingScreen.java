@@ -9,7 +9,7 @@ import static com.codeborne.selenide.Selenide.$;
 
 public class OnboardingScreen {
 
-    // Используем XPath с contains, чтобы игнорировать разницу между org.wikipedia и org.wikipedia.alpha
+
     private final SelenideElement primaryTextView =
             $(AppiumBy.xpath("//*[contains(@resource-id, 'primaryTextView')]"));
 
