@@ -36,11 +36,17 @@ public class TestBase {
         }
 
         Configuration.browserSize = null;
-        Configuration.timeout = 30000;
     }
 
     @BeforeEach
     void startDriver() {
+
+        if (getClass().getName().contains("Ios")) {
+            Configuration.browser = IosDriverProvider.class.getName();
+        } else {
+            Configuration.browser = AndroidDriverProvider.class.getName();
+        }
+        
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide()
                 .screenshots(true)
                 .savePageSource(true));
@@ -64,7 +70,7 @@ public class TestBase {
 
         Selenide.closeWebDriver();
 
-        if (!sessionId.isEmpty()) {
+        if (deviceHost.equals("browserstack") && !sessionId.isEmpty()) {
             try {
                 Attach.addVideo(sessionId);
             } catch (Exception e) {
