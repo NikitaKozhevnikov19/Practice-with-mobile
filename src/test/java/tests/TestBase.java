@@ -17,36 +17,27 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class TestBase {
 
+
     public static final String deviceHost = System.getProperty("deviceHost", "emulation");
+
 
     public static final MobileConfig config = ConfigFactory.create(MobileConfig.class, System.getProperties());
 
     @BeforeAll
     static void setup() {
-        switch (deviceHost) {
-            case "ios":
-                Configuration.browser = IosDriverProvider.class.getName();
-                break;
-            case "real":
-            case "emulation":
-            case "browserstack":
-            default:
-                Configuration.browser = AndroidDriverProvider.class.getName();
-                break;
-        }
-
         Configuration.browserSize = null;
+        Configuration.timeout = 30000;
     }
 
     @BeforeEach
     void startDriver() {
 
-        if (getClass().getName().contains("Ios")) {
+        if (deviceHost.toLowerCase().contains("ios") || getClass().getName().contains("Ios")) {
             Configuration.browser = IosDriverProvider.class.getName();
         } else {
             Configuration.browser = AndroidDriverProvider.class.getName();
         }
-        
+
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide()
                 .screenshots(true)
                 .savePageSource(true));
@@ -70,7 +61,8 @@ public class TestBase {
 
         Selenide.closeWebDriver();
 
-        if (deviceHost.equals("browserstack") && !sessionId.isEmpty()) {
+
+        if ((deviceHost.contains("_bs") || deviceHost.equals("browserstack")) && !sessionId.isEmpty()) {
             try {
                 Attach.addVideo(sessionId);
             } catch (Exception e) {
