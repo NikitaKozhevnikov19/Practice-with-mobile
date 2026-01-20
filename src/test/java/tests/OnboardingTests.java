@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import pages.android.OnboardingScreen;
 import static com.codeborne.selenide.Selenide.open;
 
-@Tag("android_bs")
+@Tag("android")
 public class OnboardingTests extends TestBase {
 
     OnboardingScreen onboarding = new OnboardingScreen();
