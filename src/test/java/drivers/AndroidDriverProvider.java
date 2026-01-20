@@ -19,20 +19,26 @@ public class AndroidDriverProvider implements WebDriverProvider {
     public WebDriver createDriver(@Nonnull Capabilities capabilities) {
         UiAutomator2Options options = new UiAutomator2Options();
 
+        String appPackage = "org.wikipedia";
+        String appActivity = "org.wikipedia.main.MainActivity";
+
         switch (TestBase.deviceHost) {
             case "emulation":
                 options.setDeviceName(TestBase.config.deviceName())
                         .setPlatformVersion(TestBase.config.platformVersion())
-                        .setApp(TestBase.config.appUrl());
+                        .setApp(TestBase.config.appUrl())
+                        .setAppPackage(appPackage)
+                        .setAppActivity(appActivity)
+                        .setFullReset(true);
                 break;
 
             case "real":
                 options.setDeviceName(TestBase.config.deviceName())
                         .setPlatformVersion(TestBase.config.platformVersion())
-                        .setAppPackage("org.wikipedia")
-                        .setAppActivity("org.wikipedia.main.MainActivity")
-                        .setNoReset(true)
-                        .setCapability("udid", TestBase.config.deviceName());
+                        .setApp(TestBase.config.appUrl())
+                        .setAppPackage(appPackage)
+                        .setAppActivity(appActivity)
+                        .setNoReset(true);
                 break;
 
             case "browserstack":
