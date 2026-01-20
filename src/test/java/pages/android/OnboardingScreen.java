@@ -9,21 +9,11 @@ import static com.codeborne.selenide.Selenide.$;
 
 public class OnboardingScreen {
 
-
-    private final SelenideElement primaryTextView =
-            $(AppiumBy.xpath("//*[contains(@resource-id, 'primaryTextView')]"));
-
-    private final SelenideElement forwardButton =
-            $(AppiumBy.xpath("//*[contains(@resource-id, 'forward_button')]"));
-
-    private final SelenideElement acceptButton =
-            $(AppiumBy.xpath("//*[contains(@resource-id, 'acceptButton')]"));
-
-    private final SelenideElement doneButton =
-            $(AppiumBy.xpath("//*[contains(@resource-id, 'done_button')]"));
-
-    private final SelenideElement mainWordmark =
-            $(AppiumBy.xpath("//*[contains(@resource-id, 'main_toolbar_wordmark')]"));
+    private final SelenideElement primaryTextView = $(AppiumBy.id("org.wikipedia:id/primaryTextView"));
+    private final SelenideElement forwardButton = $(AppiumBy.id("org.wikipedia:id/fragment_onboarding_forward_button"));
+    private final SelenideElement acceptButton = $(AppiumBy.id("org.wikipedia:id/acceptButton"));
+    private final SelenideElement doneButton = $(AppiumBy.id("org.wikipedia:id/fragment_onboarding_done_button"));
+    private final SelenideElement mainWordmark = $(AppiumBy.id("org.wikipedia:id/main_toolbar_wordmark"));
 
     @Step("Проверить заголовок и нажать 'Continue' на экране onboarding")
     public void swipeForward() {
@@ -34,7 +24,6 @@ public class OnboardingScreen {
     @Step("Нажать на кнопку завершения на последнем экране onboarding")
     public void finishOnboarding() {
         primaryTextView.shouldBe(visible);
-        // Универсальная логика: нажимаем либо Accept (для F-Droid), либо Done (для Alpha/Prod)
         if (acceptButton.is(visible)) {
             acceptButton.click();
         } else {
