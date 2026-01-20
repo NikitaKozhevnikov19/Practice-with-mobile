@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Selenide.open;
 
-@Tag("android")
+@Tag("android_bs")
 public class AndroidTests extends TestBase {
     pages.android.SearchScreen screen = new pages.android.SearchScreen();
 
