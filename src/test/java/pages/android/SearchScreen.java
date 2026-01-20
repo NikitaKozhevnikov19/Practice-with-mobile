@@ -8,15 +8,15 @@ import io.qameta.allure.Step;
 import java.time.Duration;
 
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
-
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
 public class SearchScreen {
 
+    // Универсальные ID (без указания пакета org.wikipedia)
     private final SelenideElement skipButton =
-            $(AppiumBy.id("org.wikipedia:id/fragment_onboarding_skip_button"));
+            $(AppiumBy.id("fragment_onboarding_skip_button"));
 
     private final SelenideElement permissionDenyButton =
             $(AppiumBy.id("com.android.permissioncontroller:id/permission_deny_button"));
@@ -25,13 +25,13 @@ public class SearchScreen {
             $(AppiumBy.id("android:id/button1"));
 
     private final SelenideElement searchContainer =
-            $(AppiumBy.id("org.wikipedia:id/search_container"));
+            $(AppiumBy.id("search_container"));
 
     private final SelenideElement searchInput =
-            $(AppiumBy.id("org.wikipedia:id/search_src_text"));
+            $(AppiumBy.id("search_src_text"));
 
     private final ElementsCollection searchResults =
-            $$(AppiumBy.id("org.wikipedia:id/page_list_item_title"));
+            $$(AppiumBy.id("page_list_item_title"));
 
     private final SelenideElement firstResult = searchResults.first();
 
@@ -40,6 +40,7 @@ public class SearchScreen {
 
     @Step("Android: Найти статью '{query}'")
     public void executeSearch(String query) {
+        // Ждем появления кнопки Skip (onboarding) или контейнера поиска
         if (skipButton.is(visible)) {
             skipButton.click();
         }
@@ -53,6 +54,8 @@ public class SearchScreen {
         }
 
         searchContainer.shouldBe(visible, Duration.ofSeconds(30)).click();
+
+        // Для стабильности вводим текст в активное поле
         searchInput.shouldBe(visible, Duration.ofSeconds(15)).sendKeys(query);
     }
 
