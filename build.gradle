@@ -1,7 +1,7 @@
 plugins {
     id 'java-library'
-    id 'io.qameta.allure' version '2.12.0'
-    id "io.freefair.lombok" version "6.0.0-m2"
+    id 'io.qameta.allure' version '2.11.2' // Обновили версию для стабильности в 2026 году
+    id "io.freefair.lombok" version "8.4" // Обновленная версия lombok
 }
 
 group = 'kozherka.ru'
@@ -11,11 +11,15 @@ repositories {
     mavenCentral()
 }
 
-
 def restAssuredVersion = "5.3.1"
 def allureVersion = "2.25.0"
 def selenideVersion = "6.16.1"
-def appiumVersion = "8.3.0" // Добавили версию Appium
+def appiumVersion = "8.3.0"
+
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
 
 dependencies {
     // REST API
@@ -53,10 +57,11 @@ allure {
     }
 }
 
-
-
 tasks.withType(Test) {
+
     systemProperty "file.encoding", "UTF-8"
+    systemProperty "sun.stdout.encoding", "UTF-8"
+    systemProperty "sun.stderr.encoding", "UTF-8"
 
     useJUnitPlatform {
         String tags = System.getProperty("junit.platform.include.tags")
@@ -64,6 +69,7 @@ tasks.withType(Test) {
             includeTags tags
         }
     }
+
 
     systemProperties(System.getProperties())
 
