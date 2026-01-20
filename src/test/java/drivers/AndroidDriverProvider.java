@@ -23,6 +23,18 @@ public class AndroidDriverProvider implements WebDriverProvider {
         String appActivity = "org.wikipedia.main.MainActivity";
 
         switch (TestBase.deviceHost) {
+            case "android_bs":
+                options.setDeviceName(TestBase.config.deviceName())
+                        .setPlatformVersion(TestBase.config.platformVersion())
+                        .setApp(TestBase.config.appUrl())
+                        .setCapability("bstack:options", Map.of(
+                                "userName", TestBase.config.bsUser(),
+                                "accessKey", TestBase.config.bsKey(),
+                                "projectName", "Wikipedia Android Project",
+                                "buildName", "android-build-2026"
+                        ));
+                break;
+
             case "emulation":
                 options.setDeviceName(TestBase.config.deviceName())
                         .setPlatformVersion(TestBase.config.platformVersion())
@@ -39,18 +51,6 @@ public class AndroidDriverProvider implements WebDriverProvider {
                         .setAppPackage(appPackage)
                         .setAppActivity(appActivity)
                         .setNoReset(true);
-                break;
-
-            case "browserstack":
-                options.setDeviceName(TestBase.config.deviceName())
-                        .setPlatformVersion(TestBase.config.platformVersion())
-                        .setApp(TestBase.config.appUrl())
-                        .setCapability("bstack:options", Map.of(
-                                "userName", TestBase.config.bsUser(),
-                                "accessKey", TestBase.config.bsKey(),
-                                "projectName", "Wikipedia Android Project",
-                                "buildName", "android-build-2026"
-                        ));
                 break;
 
             default:
