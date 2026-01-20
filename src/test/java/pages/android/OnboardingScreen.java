@@ -9,21 +9,32 @@ import static com.codeborne.selenide.Selenide.$;
 
 public class OnboardingScreen {
 
-    private final SelenideElement primaryTextView = $(AppiumBy.id("primaryTextView"));
-    private final SelenideElement forwardButton = $(AppiumBy.id("fragment_onboarding_forward_button"));
-    private final SelenideElement acceptButton = $(AppiumBy.id("acceptButton"));
-    private final SelenideElement doneButton = $(AppiumBy.id("fragment_onboarding_done_button"));
-    private final SelenideElement mainWordmark = $(AppiumBy.id("main_toolbar_wordmark"));
+    // Используем XPath с contains, чтобы игнорировать разницу между org.wikipedia и org.wikipedia.alpha
+    private final SelenideElement primaryTextView =
+            $(AppiumBy.xpath("//*[contains(@resource-id, 'primaryTextView')]"));
 
-    @Step("Проверить заголовок и нажать 'Continue'")
+    private final SelenideElement forwardButton =
+            $(AppiumBy.xpath("//*[contains(@resource-id, 'forward_button')]"));
+
+    private final SelenideElement acceptButton =
+            $(AppiumBy.xpath("//*[contains(@resource-id, 'acceptButton')]"));
+
+    private final SelenideElement doneButton =
+            $(AppiumBy.xpath("//*[contains(@resource-id, 'done_button')]"));
+
+    private final SelenideElement mainWordmark =
+            $(AppiumBy.xpath("//*[contains(@resource-id, 'main_toolbar_wordmark')]"));
+
+    @Step("Проверить заголовок и нажать 'Continue' на экране onboarding")
     public void swipeForward() {
         primaryTextView.shouldBe(visible);
         forwardButton.shouldBe(visible).click();
     }
 
-    @Step("Нажать на кнопку завершения")
+    @Step("Нажать на кнопку завершения на последнем экране onboarding")
     public void finishOnboarding() {
         primaryTextView.shouldBe(visible);
+        // Универсальная логика: нажимаем либо Accept (для F-Droid), либо Done (для Alpha/Prod)
         if (acceptButton.is(visible)) {
             acceptButton.click();
         } else {
@@ -31,7 +42,7 @@ public class OnboardingScreen {
         }
     }
 
-    @Step("Проверить главный экран")
+    @Step("Проверить, что основной экран Wikipedia открылся")
     public void checkMainScreen() {
         mainWordmark.shouldBe(visible);
     }
