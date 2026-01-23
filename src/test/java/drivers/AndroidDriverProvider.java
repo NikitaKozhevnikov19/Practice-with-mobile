@@ -8,6 +8,7 @@ import org.openqa.selenium.WebDriver;
 import tests.TestBase;
 
 import javax.annotation.Nonnull;
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
@@ -36,21 +37,27 @@ public class AndroidDriverProvider implements WebDriverProvider {
                 break;
 
             case "emulation":
-                options.setDeviceName(TestBase.config.deviceName())
-                        .setPlatformVersion(TestBase.config.platformVersion())
-                        .setApp(TestBase.config.appUrl())
-                        .setAppPackage(appPackage)
-                        .setAppActivity(appActivity)
-                        .setFullReset(true);
-                break;
-
             case "real":
+                String appPath = TestBase.config.appUrl();
+                if (appPath.startsWith("src/test/resources")) {
+                    File app = new File(appPath);
+                    if (!app.exists()) {
+                        throw new RuntimeException("APK файл не найден по пути: " + app.getAbsolutePath());
+                    }
+                    appPath = app.getAbsolutePath();
+                }
+
                 options.setDeviceName(TestBase.config.deviceName())
                         .setPlatformVersion(TestBase.config.platformVersion())
-                        .setApp(TestBase.config.appUrl())
+                        .setApp(appPath)
                         .setAppPackage(appPackage)
-                        .setAppActivity(appActivity)
-                        .setNoReset(true);
+                        .setAppActivity(appActivity);
+
+                if (TestBase.deviceHost.equals("emulation")) {
+                    options.setFullReset(true);
+                } else {
+                    options.setFullReset(true);
+                }
                 break;
 
             default:
